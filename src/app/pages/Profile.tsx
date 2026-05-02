@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Camera, Save } from 'lucide-react';
 import { toast } from 'sonner';
+import { apiClient } from '../api/client';
 
 export function Profile() {
   const { user, updateProfile } = useAuth();
@@ -10,6 +11,14 @@ export function Profile() {
     email: user?.email || '',
     phone: user?.phone || '',
   });
+
+  const getRoleImage = () => {
+    switch (user?.role) {
+      case 'admin': return '/images/Admin.jpg';
+      case 'librarian': return '/images/Librarian.jpg';
+      default: return '/images/Member.jpg';
+    }
+  };
 
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -53,15 +62,11 @@ export function Profile() {
             {/* Avatar */}
             <div className="relative">
               <div className="size-32 rounded-full bg-white border-4 border-white shadow-lg flex items-center justify-center text-[#1B5E4B] text-4xl font-bold overflow-hidden">
-                {user?.photo ? (
-                  <img
-                    src={`http://localhost:5000${user.photo}`}
-                    alt={user.fullName}
-                    className="size-full object-cover"
-                  />
-                ) : (
-                  user?.fullName.charAt(0)
-                )}
+                <img
+                  src={user?.photo ? `http://localhost:5000${user.photo}` : getRoleImage()}
+                  alt={user?.fullName}
+                  className="size-full object-cover"
+                />
               </div>
               <label className="absolute bottom-0 right-0 bg-[#1B5E4B] rounded-full p-3 text-white shadow-lg hover:bg-[#15523f] transition-colors cursor-pointer">
                 <Camera className="size-5" />
