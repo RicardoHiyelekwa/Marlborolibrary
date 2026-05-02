@@ -34,7 +34,7 @@ export interface RegisterData {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { readonly children: ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -62,6 +62,7 @@ export function AuthProvider({ children }: { readonly children: ReactNode }) {
       method: 'POST',
       body: JSON.stringify({ username, password, role }),
     });
+    
     localStorage.setItem('token', data.token);
     setUser(data);
   };
@@ -75,10 +76,12 @@ export function AuthProvider({ children }: { readonly children: ReactNode }) {
     if (data.password !== data.confirmPassword) {
       throw new Error('Passwords do not match');
     }
+    
     const result = await apiClient('/auth/register', {
       method: 'POST',
       body: JSON.stringify(data),
     });
+    
     localStorage.setItem('token', result.token);
     setUser(result);
   };
@@ -88,10 +91,10 @@ export function AuthProvider({ children }: { readonly children: ReactNode }) {
       method: 'PUT',
       body: JSON.stringify(data),
     });
+    
     setUser(updatedUser);
   };
 
-  // ✅ useMemo to prevent unnecessary re-renders
   const contextValue = useMemo(
     () => ({ user, loading, login, logout, register, updateProfile }),
     [user, loading]
