@@ -20,6 +20,7 @@ interface Activity {
 }
 
 export function Dashboard() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [data, setData] = useState<{ stats: Stats; recentActivities: Activity[] } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -78,7 +79,6 @@ export function Dashboard() {
     },
   ];
 
-  const navigate = useNavigate();
   const quickActions = [
     { label: 'Add Member', icon: Users, color: 'bg-blue-500', path: '/members' },
     { label: 'Borrow Book', icon: BookUp, color: 'bg-green-500', path: '/borrow' },
