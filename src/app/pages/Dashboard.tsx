@@ -77,10 +77,11 @@ export function Dashboard() {
     },
   ];
 
+  const navigate = useNavigate();
   const quickActions = [
-    { label: 'Add Member', icon: Users, color: 'bg-blue-500' },
-    { label: 'Borrow Book', icon: BookUp, color: 'bg-green-500' },
-    { label: 'Return Book', icon: BookOpen, color: 'bg-purple-500' },
+    { label: 'Add Member', icon: Users, color: 'bg-blue-500', path: '/members' },
+    { label: 'Borrow Book', icon: BookUp, color: 'bg-green-500', path: '/borrow' },
+    { label: 'Return Book', icon: BookOpen, color: 'bg-purple-500', path: '/return' },
   ];
 
   // Filter quick actions based on role
@@ -136,6 +137,7 @@ export function Dashboard() {
               return (
                 <button
                   key={index}
+                  onClick={() => navigate(action.path)}
                   className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow text-left group"
                 >
                   <div className={`${action.color} rounded-lg p-3 inline-flex mb-3`}>
