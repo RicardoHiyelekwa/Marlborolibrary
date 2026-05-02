@@ -6,7 +6,7 @@ interface BookModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   book?: {
-    id: string;
+    _id: string;
     title: string;
     author: string;
     isbn: string;
@@ -66,11 +66,8 @@ export function BookModal({ open, onOpenChange, book, onSave }: BookModalProps) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(formData);
-<<<<<<< HEAD
     toast.success(book ? 'Book updated successfully!' : 'Book added successfully!');
     onOpenChange(false);
-=======
->>>>>>> ac623c4 (created database)
   };
 
   if (!open) return null;
