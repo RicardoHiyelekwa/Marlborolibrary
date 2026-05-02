@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-import { useState } from 'react';
-import { Calendar, BookDown, DollarSign, Calculator } from 'lucide-react';
-import { ConfirmModal } from '../components/ConfirmModal';
-import { toast } from 'sonner';
-
-export function Return() {
-  const [formData, setFormData] = useState({
-    member: '',
-    book: '',
-    borrowDate: '',
-=======
 import { useState, useEffect } from 'react';
 import { Calendar, BookDown, DollarSign, Calculator } from 'lucide-react';
 import { ConfirmModal } from '../components/ConfirmModal';
@@ -23,41 +11,10 @@ export function Return() {
     book: '',
     borrowDate: '',
     dueDate: '',
->>>>>>> ac623c4 (created database)
     returnDate: new Date().toISOString().split('T')[0],
   });
   const [lateFee, setLateFee] = useState(0);
   const [confirmModal, setConfirmModal] = useState(false);
-<<<<<<< HEAD
-
-  const activeBorrows = [
-    {
-      id: '1',
-      member: 'John Smith',
-      book: 'Clean Code',
-      borrowDate: '20/02/2026',
-      dueDate: '06/03/2026',
-    },
-    {
-      id: '2',
-      member: 'Peter Williams',
-      book: 'Design Patterns',
-      borrowDate: '15/02/2026',
-      dueDate: '01/03/2026',
-    },
-  ];
-
-  const calculateFine = () => {
-    if (!formData.borrowDate || !formData.returnDate) {
-      toast.error('Select dates to calculate fine');
-      return;
-    }
-
-    const borrow = new Date(formData.borrowDate);
-    const returnD = new Date(formData.returnDate);
-    const dueDate = new Date(borrow);
-    dueDate.setDate(dueDate.getDate() + 14); // 14 days loan period
-=======
   const [activeBorrows, setActiveBorrows] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -85,17 +42,12 @@ export function Return() {
 
     const dueDate = new Date(formData.dueDate);
     const returnD = new Date(formData.returnDate);
->>>>>>> ac623c4 (created database)
 
     if (returnD > dueDate) {
       const daysLate = Math.ceil(
         (returnD.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)
       );
-<<<<<<< HEAD
-      const fee = daysLate * 2; // £2 per day
-=======
       const fee = daysLate * 1; // £1 per day as per backend
->>>>>>> ac623c4 (created database)
       setLateFee(fee);
       toast.info(`${daysLate} days overdue. Fine: £${fee.toFixed(2)}`);
     } else {
@@ -106,23 +58,6 @@ export function Return() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-<<<<<<< HEAD
-    setConfirmModal(true);
-  };
-
-  const handleConfirm = () => {
-    const borrow = activeBorrows.find((b) => b.id === formData.member);
-    toast.success(`Return confirmed! "${borrow?.book}" returned successfully.`);
-    setFormData({
-      member: '',
-      book: '',
-      borrowDate: '',
-      returnDate: new Date().toISOString().split('T')[0],
-    });
-    setLateFee(0);
-  };
-
-=======
     calculateFine();
     setConfirmModal(true);
   };
@@ -160,7 +95,6 @@ export function Return() {
     return <div className="flex items-center justify-center h-64">Loading...</div>;
   }
 
->>>>>>> ac623c4 (created database)
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
@@ -190,18 +124,6 @@ export function Return() {
                 Select Loan *
               </label>
               <select
-<<<<<<< HEAD
-                value={formData.member}
-                onChange={(e) => {
-                  const borrow = activeBorrows.find((b) => b.id === e.target.value);
-                  if (borrow) {
-                    const [day, month, year] = borrow.borrowDate.split('/');
-                    setFormData({
-                      ...formData,
-                      member: e.target.value,
-                      book: borrow.book,
-                      borrowDate: `${year}-${month}-${day}`,
-=======
                 value={formData.transactionId}
                 onChange={(e) => {
                   const borrow = activeBorrows.find((b) => b._id === e.target.value);
@@ -213,7 +135,6 @@ export function Return() {
                       book: borrow.book.title,
                       borrowDate: new Date(borrow.borrowDate).toISOString().split('T')[0],
                       dueDate: new Date(borrow.dueDate).toISOString().split('T')[0],
->>>>>>> ac623c4 (created database)
                     });
                   }
                 }}
@@ -222,13 +143,8 @@ export function Return() {
               >
                 <option value="">Choose an active loan</option>
                 {activeBorrows.map((borrow) => (
-<<<<<<< HEAD
-                  <option key={borrow.id} value={borrow.id}>
-                    {borrow.member} - {borrow.book} (Due: {borrow.dueDate})
-=======
                   <option key={borrow._id} value={borrow._id}>
                     {borrow.member.name} - {borrow.book.title} (Due: {new Date(borrow.dueDate).toLocaleDateString('en-GB')})
->>>>>>> ac623c4 (created database)
                   </option>
                 ))}
               </select>
@@ -293,19 +209,7 @@ export function Return() {
               </div>
             </div>
             <p className="text-sm text-gray-600 mt-3">
-<<<<<<< HEAD
-              Late fee: £2.00 per day overdue
-            </p>
-          </div>
-
-          {/* Transaction ID */}
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-1">Transaction ID</p>
-            <p className="text-lg font-mono font-semibold text-gray-900">
-              TXN-{Date.now().toString().slice(-8)}
-=======
               Late fee: £1.00 per day overdue
->>>>>>> ac623c4 (created database)
             </p>
           </div>
 
@@ -322,17 +226,11 @@ export function Return() {
               type="button"
               onClick={() => {
                 setFormData({
-<<<<<<< HEAD
-                  member: '',
-                  book: '',
-                  borrowDate: '',
-=======
                   transactionId: '',
                   member: '',
                   book: '',
                   borrowDate: '',
                   dueDate: '',
->>>>>>> ac623c4 (created database)
                   returnDate: new Date().toISOString().split('T')[0],
                 });
                 setLateFee(0);
@@ -345,48 +243,6 @@ export function Return() {
         </form>
       </div>
 
-<<<<<<< HEAD
-      {/* Recent Returns */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h3 className="text-lg font-bold text-gray-900 mb-4">Recent Returns</h3>
-        <div className="space-y-3">
-          {[
-            { member: 'Mary Johnson', book: 'Refactoring', date: '06/03/2026', fee: 0 },
-            { member: 'Emma Brown', book: 'Clean Code', date: '05/03/2026', fee: 6 },
-            {
-              member: 'John Smith',
-              book: 'The Pragmatic Programmer',
-              date: '04/03/2026',
-              fee: 0,
-            },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-gray-50 rounded-lg"
-            >
-              <div className="mb-2 sm:mb-0">
-                <p className="font-medium text-gray-900">{item.member}</p>
-                <p className="text-sm text-gray-600">{item.book}</p>
-              </div>
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-gray-500">{item.date}</span>
-                {item.fee > 0 ? (
-                  <span className="text-sm font-semibold text-red-600">
-                    Fine: £{item.fee.toFixed(2)}
-                  </span>
-                ) : (
-                  <span className="text-sm font-semibold text-green-600">
-                    No fine
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-=======
->>>>>>> ac623c4 (created database)
       {/* Confirmation Modal */}
       <ConfirmModal
         open={confirmModal}
@@ -404,8 +260,4 @@ export function Return() {
       />
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ac623c4 (created database)
