@@ -66,6 +66,10 @@ export function Profile() {
                   src={user?.photo ? `http://localhost:5000${user.photo}` : getRoleImage()}
                   alt={user?.fullName}
                   className="size-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement?.insertAdjacentText('beforeend', user?.fullName.charAt(0) || '');
+                  }}
                 />
               </div>
               <label className="absolute bottom-0 right-0 bg-[#1B5E4B] rounded-full p-3 text-white shadow-lg hover:bg-[#15523f] transition-colors cursor-pointer">
