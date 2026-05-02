@@ -76,6 +76,7 @@ export function Dashboard() {
       color: 'bg-red-500',
     },
   ];
+
   const quickActions = [
     { label: 'Add Member', icon: Users, color: 'bg-blue-500' },
     { label: 'Borrow Book', icon: BookUp, color: 'bg-green-500' },
@@ -169,7 +170,7 @@ export function Dashboard() {
                     <th className="text-left px-4 md:px-6 py-3 text-sm font-semibold text-gray-700">
                       Book
                     </th>
-                    <th className="text-left px-4 md:px-6 py-3 text-sm font-semibold text-gray-700">
+                    <th className="text-left px-6 md:px-6 py-3 text-sm font-semibold text-gray-700">
                       Action
                     </th>
                     <th className="text-left px-4 md:px-6 py-3 text-sm font-semibold text-gray-700">

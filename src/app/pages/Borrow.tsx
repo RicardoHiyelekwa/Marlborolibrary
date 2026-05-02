@@ -1,40 +1,14 @@
-<<<<<<< HEAD
-import { useState } from 'react';
-import { Calendar, BookUp } from 'lucide-react';
-import { ConfirmModal } from '../components/ConfirmModal';
-import { toast } from 'sonner';
-=======
 import { useState, useEffect } from 'react';
 import { Calendar, BookUp } from 'lucide-react';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { toast } from 'sonner';
 import { apiClient } from '../api/client';
->>>>>>> ac623c4 (created database)
 
 export function Borrow() {
   const [formData, setFormData] = useState({
     member: '',
     book: '',
     borrowDate: new Date().toISOString().split('T')[0],
-<<<<<<< HEAD
-    dueDate: '',
-  });
-  const [confirmModal, setConfirmModal] = useState(false);
-
-  const members = [
-    { id: '1', name: 'John Smith' },
-    { id: '2', name: 'Mary Johnson' },
-    { id: '3', name: 'Peter Williams' },
-    { id: '4', name: 'Emma Brown' },
-  ];
-
-  const books = [
-    { id: '1', title: 'Clean Code', available: 3 },
-    { id: '2', title: 'The Pragmatic Programmer', available: 1 },
-    { id: '3', title: 'Refactoring', available: 4 },
-    { id: '4', title: 'Introduction to Algorithms', available: 2 },
-  ];
-=======
     dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
   });
   const [confirmModal, setConfirmModal] = useState(false);
@@ -61,29 +35,12 @@ export function Borrow() {
 
     fetchData();
   }, []);
->>>>>>> ac623c4 (created database)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setConfirmModal(true);
   };
 
-<<<<<<< HEAD
-  const handleConfirm = () => {
-    const member = members.find((m) => m.id === formData.member);
-    const book = books.find((b) => b.id === formData.book);
-    toast.success(
-      `Borrow confirmed! "${book?.title}" to ${member?.name}`
-    );
-    setFormData({
-      member: '',
-      book: '',
-      borrowDate: new Date().toISOString().split('T')[0],
-      dueDate: '',
-    });
-  };
-
-=======
   const handleConfirm = async () => {
     try {
       await apiClient('/transactions/borrow', {
@@ -120,7 +77,6 @@ export function Borrow() {
     return <div className="flex items-center justify-center h-64">Loading...</div>;
   }
 
->>>>>>> ac623c4 (created database)
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
@@ -157,11 +113,7 @@ export function Borrow() {
               >
                 <option value="">Choose a member</option>
                 {members.map((member) => (
-<<<<<<< HEAD
-                  <option key={member.id} value={member.id}>
-=======
                   <option key={member._id} value={member._id}>
->>>>>>> ac623c4 (created database)
                     {member.name}
                   </option>
                 ))}
@@ -180,11 +132,7 @@ export function Borrow() {
               >
                 <option value="">Choose a book</option>
                 {books.map((book) => (
-<<<<<<< HEAD
-                  <option key={book.id} value={book.id}>
-=======
                   <option key={book._id} value={book._id}>
->>>>>>> ac623c4 (created database)
                     {book.title} ({book.available} available)
                   </option>
                 ))}
@@ -250,11 +198,7 @@ export function Borrow() {
                   member: '',
                   book: '',
                   borrowDate: new Date().toISOString().split('T')[0],
-<<<<<<< HEAD
-                  dueDate: '',
-=======
                   dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
->>>>>>> ac623c4 (created database)
                 })
               }
               className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
@@ -265,34 +209,6 @@ export function Borrow() {
         </form>
       </div>
 
-<<<<<<< HEAD
-      {/* Recent Borrows */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <h3 className="text-lg font-bold text-gray-900 mb-4">
-          Recent Loans
-        </h3>
-        <div className="space-y-3">
-          {[
-            { member: 'John Smith', book: 'Clean Code', date: '06/03/2026' },
-            { member: 'Mary Johnson', book: 'Refactoring', date: '05/03/2026' },
-            { member: 'Peter Williams', book: 'Design Patterns', date: '04/03/2026' },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-gray-50 rounded-lg"
-            >
-              <div className="mb-2 sm:mb-0">
-                <p className="font-medium text-gray-900">{item.member}</p>
-                <p className="text-sm text-gray-600">{item.book}</p>
-              </div>
-              <span className="text-sm text-gray-500">{item.date}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-=======
->>>>>>> ac623c4 (created database)
       {/* Confirmation Modal */}
       <ConfirmModal
         open={confirmModal}
@@ -306,8 +222,4 @@ export function Borrow() {
       />
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ac623c4 (created database)

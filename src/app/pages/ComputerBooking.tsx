@@ -99,7 +99,7 @@ export function ComputerBooking() {
       id: '1',
       computerId: '2',
       computerName: 'Computer 02',
-      memberId: user?.role === 'member' ? user.id : '3',
+      memberId: user?.role === 'member' ? user._id : '3',
       memberName: user?.role === 'member' ? user.fullName : 'Jane Member',
       date: '2026-03-26',
       timeSlot: '10:00 - 12:00',
@@ -133,7 +133,7 @@ export function ComputerBooking() {
 
   // Filter bookings based on user role
   const filteredBookings = user?.role === 'member' 
-    ? bookings.filter(b => b.memberId === user.id)
+    ? bookings.filter(b => b.memberId === user._id)
     : bookings;
 
   const handleBookComputer = (computer: Computer) => {
@@ -145,7 +145,7 @@ export function ComputerBooking() {
       id: String(bookings.length + 1),
       computerId: data.computerId,
       computerName: data.computerName,
-      memberId: user?.id || '',
+      memberId: user?._id || '',
       memberName: user?.fullName || '',
       date: data.date,
       timeSlot: data.timeSlot,

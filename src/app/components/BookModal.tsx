@@ -6,7 +6,7 @@ interface BookModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   book?: {
-    id: string;
+    _id: string;
     title: string;
     author: string;
     isbn: string;
@@ -66,11 +66,12 @@ export function BookModal({ open, onOpenChange, book, onSave }: BookModalProps) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(formData);
-<<<<<<< HEAD
-    toast.success(book ? 'Book updated successfully!' : 'Book added successfully!');
+
+    toast.success(
+      book ? 'Book updated successfully!' : 'Book added successfully!'
+    );
+
     onOpenChange(false);
-=======
->>>>>>> ac623c4 (created database)
   };
 
   if (!open) return null;
@@ -163,7 +164,7 @@ export function BookModal({ open, onOpenChange, book, onSave }: BookModalProps) 
                     type="text"
                     value={formData.publisher}
                     onChange={(e) => setFormData({ ...formData, publisher: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1B5E4B] focus:border-transparent"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300"
                     placeholder="Enter publisher name"
                   />
                 </div>
@@ -176,10 +177,8 @@ export function BookModal({ open, onOpenChange, book, onSave }: BookModalProps) 
                     type="number"
                     value={formData.publishYear}
                     onChange={(e) => setFormData({ ...formData, publishYear: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1B5E4B] focus:border-transparent"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300"
                     placeholder="2024"
-                    min="1800"
-                    max="2100"
                   />
                 </div>
 
@@ -190,7 +189,7 @@ export function BookModal({ open, onOpenChange, book, onSave }: BookModalProps) 
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1B5E4B] focus:border-transparent"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300"
                     required
                   >
                     <option value="">Select category</option>
@@ -210,7 +209,7 @@ export function BookModal({ open, onOpenChange, book, onSave }: BookModalProps) 
                     type="number"
                     value={formData.copies}
                     onChange={(e) => setFormData({ ...formData, copies: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1B5E4B] focus:border-transparent"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300"
                     placeholder="1"
                     min="1"
                     required
@@ -224,25 +223,16 @@ export function BookModal({ open, onOpenChange, book, onSave }: BookModalProps) 
                   <textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1B5E4B] focus:border-transparent resize-none"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300"
                     rows={3}
-                    placeholder="Enter book description or summary"
                   />
                 </div>
               </div>
 
-              {/* Info Box */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-4">
-                <p className="text-xs text-blue-800">
-                  <strong>Note:</strong> All copies will be marked as available when the book is added.
-                </p>
-              </div>
-
-              {/* Buttons */}
               <div className="flex gap-3 pt-6 mt-4 border-t border-gray-200">
                 <button
                   type="submit"
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#1B5E4B] text-white rounded-lg font-medium hover:bg-[#15523f] transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#1B5E4B] text-white rounded-lg"
                 >
                   <Save className="size-5" />
                   {book ? 'Save Changes' : 'Add Book'}
@@ -250,7 +240,7 @@ export function BookModal({ open, onOpenChange, book, onSave }: BookModalProps) 
                 <button
                   type="button"
                   onClick={() => onOpenChange(false)}
-                  className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                  className="flex-1 px-6 py-3 bg-gray-100 rounded-lg"
                 >
                   Cancel
                 </button>

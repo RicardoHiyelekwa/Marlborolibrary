@@ -13,13 +13,17 @@ interface Booking {
   purpose?: string;
 }
 
-interface ViewBookingModalProps {
+type ViewBookingModalProps = Readonly<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
   booking: Booking | null;
-}
+}>;
 
-export function ViewBookingModal({ open, onOpenChange, booking }: ViewBookingModalProps) {
+export function ViewBookingModal({
+  open,
+  onOpenChange,
+  booking,
+}: ViewBookingModalProps) {
   if (!open || !booking) return null;
 
   const getStatusColor = (status: Booking['status']) => {
@@ -54,8 +58,10 @@ export function ViewBookingModal({ open, onOpenChange, booking }: ViewBookingMod
 
   return (
     <>
-      {/* Backdrop */}
-      <div
+      {/* Backdrop (accessible button instead of div) */}
+      <button
+        type="button"
+        aria-label="Close modal"
         className="fixed inset-0 bg-black/50 z-40 animate-fade-in"
         onClick={() => onOpenChange(false)}
       />
@@ -64,6 +70,7 @@ export function ViewBookingModal({ open, onOpenChange, booking }: ViewBookingMod
       <div className="fixed inset-0 z-50 overflow-y-auto">
         <div className="min-h-screen px-4 flex items-center justify-center">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl animate-scale-in transform -translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2">
+
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <div className="flex items-center gap-3">
@@ -71,11 +78,17 @@ export function ViewBookingModal({ open, onOpenChange, booking }: ViewBookingMod
                   <Monitor className="size-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900">Booking Details</h2>
-                  <p className="text-sm text-gray-600">View computer booking information</p>
+                  <h2 className="text-xl font-bold text-gray-900">
+                    Booking Details
+                  </h2>
+                  <p className="text-sm text-gray-600">
+                    View computer booking information
+                  </p>
                 </div>
               </div>
+
               <button
+                type="button"
                 onClick={() => onOpenChange(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
@@ -85,7 +98,8 @@ export function ViewBookingModal({ open, onOpenChange, booking }: ViewBookingMod
 
             {/* Content */}
             <div className="p-6">
-              {/* Booking Header */}
+
+              {/* Header Info */}
               <div className="flex items-center justify-between pb-6 mb-6 border-b border-gray-200">
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-1">
@@ -95,88 +109,48 @@ export function ViewBookingModal({ open, onOpenChange, booking }: ViewBookingMod
                     Created for computer reservation
                   </p>
                 </div>
+
                 <span
-                  className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(booking.status)}`}
+                  className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                    booking.status
+                  )}`}
                 >
                   {getStatusText(booking.status)}
                 </span>
               </div>
 
-              {/* Information Grid */}
+              {/* Details */}
               <div className="space-y-4">
-                <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                  <div className="bg-white rounded-lg p-2">
-                    <Monitor className="size-5 text-[#1B5E4B]" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs text-gray-500 mb-1">Computer</p>
-                    <p className="text-sm font-medium text-gray-900">{booking.computerName}</p>
-                  </div>
-                </div>
 
-                <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                  <div className="bg-white rounded-lg p-2">
-                    <User className="size-5 text-[#1B5E4B]" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs text-gray-500 mb-1">Member</p>
-                    <p className="text-sm font-medium text-gray-900">{booking.memberName}</p>
-                  </div>
-                </div>
+                <InfoRow icon={<Monitor />} label="Computer" value={booking.computerName} />
+                <InfoRow icon={<User />} label="Member" value={booking.memberName} />
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                    <div className="bg-white rounded-lg p-2">
-                      <Calendar className="size-5 text-[#1B5E4B]" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray-500 mb-1">Date</p>
-                      <p className="text-sm font-medium text-gray-900">{booking.date}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                    <div className="bg-white rounded-lg p-2">
-                      <Clock className="size-5 text-[#1B5E4B]" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray-500 mb-1">Time Slot</p>
-                      <p className="text-sm font-medium text-gray-900">{booking.timeSlot}</p>
-                    </div>
-                  </div>
+                  <InfoRow icon={<Calendar />} label="Date" value={booking.date} />
+                  <InfoRow icon={<Clock />} label="Time Slot" value={booking.timeSlot} />
                 </div>
 
-                <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                  <div className="bg-white rounded-lg p-2">
-                    <Clock className="size-5 text-[#1B5E4B]" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs text-gray-500 mb-1">Duration</p>
-                    <p className="text-sm font-medium text-gray-900">
-                      {booking.duration} {booking.duration === 1 ? 'hour' : 'hours'}
-                    </p>
-                  </div>
-                </div>
+                <InfoRow
+                  icon={<Clock />}
+                  label="Duration"
+                  value={`${booking.duration} ${booking.duration === 1 ? 'hour' : 'hours'}`}
+                />
 
                 {booking.purpose && (
-                  <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                    <div className="bg-white rounded-lg p-2">
-                      <FileText className="size-5 text-[#1B5E4B]" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray-500 mb-1">Purpose</p>
-                      <p className="text-sm font-medium text-gray-900">{booking.purpose}</p>
-                    </div>
-                  </div>
+                  <InfoRow
+                    icon={<FileText />}
+                    label="Purpose"
+                    value={booking.purpose}
+                  />
                 )}
               </div>
 
-              {/* Additional Info */}
+              {/* Status Messages */}
               {booking.status === 'upcoming' && (
                 <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                   <p className="text-sm text-blue-800">
-                    <strong>ℹ️ Reminder:</strong> Please arrive 5 minutes before your scheduled time.
-                    The computer will be held for 15 minutes after the start time.
+                    <strong>ℹ️ Reminder:</strong> Please arrive 5 minutes early.
+                    Your seat is held for 15 minutes after start time.
                   </p>
                 </div>
               )}
@@ -184,25 +158,49 @@ export function ViewBookingModal({ open, onOpenChange, booking }: ViewBookingMod
               {booking.status === 'active' && (
                 <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                   <p className="text-sm text-green-800">
-                    <strong>✓ Active Session:</strong> Your computer session is currently active.
-                    Please remember to log out when finished.
+                    <strong>✓ Active Session:</strong> Please remember to log out when finished.
                   </p>
                 </div>
               )}
 
-              {/* Close Button */}
+              {/* Close */}
               <div className="pt-6 mt-6 border-t border-gray-200">
                 <button
+                  type="button"
                   onClick={() => onOpenChange(false)}
                   className="w-full px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
                 >
                   Close
                 </button>
               </div>
+
             </div>
           </div>
         </div>
       </div>
     </>
+  );
+}
+
+/* Reusable row component */
+function InfoRow({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+      <div className="bg-white rounded-lg p-2 text-[#1B5E4B]">
+        {icon}
+      </div>
+      <div className="flex-1">
+        <p className="text-xs text-gray-500 mb-1">{label}</p>
+        <p className="text-sm font-medium text-gray-900">{value}</p>
+      </div>
+    </div>
   );
 }

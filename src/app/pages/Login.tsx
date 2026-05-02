@@ -9,22 +9,18 @@ export function Login() {
   const [role, setRole] = useState<UserRole>('member');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setLoading(true);
 
     try {
       await login(username, password, role);
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Invalid credentials.');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -103,10 +99,9 @@ export function Login() {
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full bg-[#1B5E4B] text-white py-3 rounded-lg font-medium hover:bg-[#15523f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#1B5E4B] text-white py-3 rounded-lg font-medium hover:bg-[#15523f] transition-colors"
             >
-              {loading ? 'Logging in...' : 'Login'}
+              Login
             </button>
           </form>
 
