@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { Users, BookOpen, BookUp, AlertTriangle, Plus, TrendingUp } from 'lucide-react';
 import { apiClient } from '../api/client';
