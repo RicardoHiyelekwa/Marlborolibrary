@@ -1,25 +1,16 @@
-# Marlboro Library
-
-This is a code bundle for Marlboro Library. The original project is available at https://www.figma.com/design/MKr3fUlxO35VlZCoIuDTq3/Marlboro-Library.
-
-## Running the code
-
-Run `npm i` to install the dependencies.
-
-Run `npm run dev` to start the development server.
-
-=======
-
 # 📚 Marlboro Library - Digital Management System
 
 A comprehensive, modern MERN stack application designed to streamline library operations. Built with React, TypeScript, Node.js, and MongoDB.
 
+The original design is available at [Figma](https://www.figma.com/design/MKr3fUlxO35VlZCoIuDTq3/Marlboro-Library).
+
 ## 🚀 Features
 
 - **Authentication:** JWT-based login with role-based access control (Admin, Librarian, Member).
+- **Profile Management:** Users can update their profile information and upload profile photos.
 - **Member Management:** Full CRUD operations for library members.
 - **Book Catalogue:** Manage books, categories, and real-time availability.
-- **Transactions:** guided workflows for borrowing and returning books, including automated fine calculation.
+- **Transactions:** Guided workflows for borrowing and returning books, including automated fine calculation.
 - **Dashboard:** Real-time statistics and recent activity monitoring.
 
 ## 🛠️ Tech Stack
@@ -38,7 +29,7 @@ A comprehensive, modern MERN stack application designed to streamline library op
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/reuben534/Marlborolibrary.git
 cd Marlborolibrary-main
 ```
 
@@ -98,6 +89,22 @@ The application will be available at `http://localhost:5173`.
 - **Admin:** `admin` / `password`
 - **Librarian:** `librarian` / `password`
 - **Member:** `member` / `password`
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+1. **MongoDB Connection Error:**
+   - Ensure MongoDB is running locally on port 27017.
+   - Check the `MONGODB_URI` in `server/.env`.
+
+2. **API Calls Failing:**
+   - Ensure the backend server is running on port 5000.
+   - If using a different port, update `BASE_URL` in `src/app/api/client.ts`.
+
+3. **Photo Upload Not Working:**
+   - Ensure the root `images/` directory exists and has write permissions.
+   - Check if the backend is correctly serving static files from `../images`.
 
 ## 📄 License
 

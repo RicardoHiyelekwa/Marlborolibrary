@@ -29,6 +29,12 @@ yarn-error.log*
 logs
 *.log
 
+# Uploaded images (keep defaults)
+images/*
+!images/Admin.jpg
+!images/Librarian.jpg
+!images/Member.jpg
+
 # Editor/OS
 .vscode/
 .idea/

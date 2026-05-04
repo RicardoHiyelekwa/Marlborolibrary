@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Camera, Save } from 'lucide-react';
 import { toast } from 'sonner';
+import { apiClient, IMAGE_BASE_URL } from '../api/client';
 
 export function Profile() {
   const { user, updateProfile } = useAuth();
@@ -10,6 +11,37 @@ export function Profile() {
     email: user?.email || '',
     phone: user?.phone || '',
   });
+
+  const getRoleImage = () => {
+    switch (user?.role) {
+      case 'admin': return `${IMAGE_BASE_URL}/images/Admin.jpg`;
+      case 'librarian': return `${IMAGE_BASE_URL}/images/Librarian.jpg`;
+      default: return `${IMAGE_BASE_URL}/images/Member.jpg`;
+    }
+  };
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('photo', file);
+
+    try {
+      const result = await apiClient('/upload', {
+        method: 'POST',
+        body: formData as any,
+        headers: {
+          'Content-Type': '',
+        }
+      });
+      await updateProfile({ photo: result.url });
+      toast.success('Profile photo updated successfully!');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to upload photo');
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,12 +64,21 @@ export function Profile() {
           <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6 -mt-16">
             {/* Avatar */}
             <div className="relative">
-              <div className="size-32 rounded-full bg-white border-4 border-white shadow-lg flex items-center justify-center text-[#1B5E4B] text-4xl font-bold">
-                {user?.fullName.charAt(0)}
+              <div className="size-32 rounded-full bg-white border-4 border-white shadow-lg flex items-center justify-center text-[#1B5E4B] text-4xl font-bold overflow-hidden">
+                <img
+                  src={user?.photo ? `${IMAGE_BASE_URL}${user.photo}` : getRoleImage()}
+                  alt={user?.fullName}
+                  className="size-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement?.insertAdjacentText('beforeend', user?.fullName.charAt(0) || '');
+                  }}
+                />
               </div>
-              <button className="absolute bottom-0 right-0 bg-[#1B5E4B] rounded-full p-3 text-white shadow-lg hover:bg-[#15523f] transition-colors">
+              <label className="absolute bottom-0 right-0 bg-[#1B5E4B] rounded-full p-3 text-white shadow-lg hover:bg-[#15523f] transition-colors cursor-pointer">
                 <Camera className="size-5" />
-              </button>
+                <input type="file" className="hidden" accept="image/*" onChange={handlePhotoUpload} />
+              </label>
             </div>
 
             {/* User Info */}
